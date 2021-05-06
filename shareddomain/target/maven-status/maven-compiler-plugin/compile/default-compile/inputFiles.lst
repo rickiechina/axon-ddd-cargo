@@ -1,0 +1,8 @@
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/commands/AssignTrackingDetailsToCargoCommand.java
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/events/CargoRoutedEventData.java
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/events/CargoBookedEventData.java
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/events/CargoTrackedEvent.java
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/events/CargoHandledEventData.java
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/events/CargoHandledEvent.java
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/events/CargoRoutedEvent.java
+/Users/rickie/work/github/axon-ddd-cargo/shareddomain/src/main/java/com/practicalddd/cargotracker/shareddomain/events/CargoBookedEvent.java

@@ -16,6 +16,7 @@ import java.lang.invoke.MethodHandles;
 
 /**
  * Class which acts as the Query Handler for all queries related to the Cargo Aggregate Projections
+ * 所有关于Cargo聚合投影查询的查询处理程序
  */
 @Component
 public class CargoAggregateQueryHandler {
@@ -28,6 +29,7 @@ public class CargoAggregateQueryHandler {
     }
 
     /**
+     * 查询处理程序-返回指定BookingId查询条件的Cargo汇总结果
      * Query Handler Query which returns the Cargo Summary for a Specific Query
      * @param cargoSummaryQuery
      * @return CargoSummaryResult

@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class AssignRouteToCargoCommand {
     @TargetAggregateIdentifier
-    //Identifier to indicate to Axon framework the unique instance on which the Command needs to be processed
     private String bookingId;
     private List<Leg> legs;
     public AssignRouteToCargoCommand(String bookingId,List<Leg> legs){

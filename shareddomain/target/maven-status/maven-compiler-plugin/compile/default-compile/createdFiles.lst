@@ -1,0 +1,10 @@
+com/practicalddd/cargotracker/shareddomain/model/TransitEdge.class
+com/practicalddd/cargotracker/shareddomain/events/CargoTrackedEvent.class
+com/practicalddd/cargotracker/shareddomain/events/CargoBookedEvent.class
+com/practicalddd/cargotracker/shareddomain/events/CargoRoutedEventData.class
+com/practicalddd/cargotracker/shareddomain/events/CargoHandledEventData.class
+com/practicalddd/cargotracker/shareddomain/events/CargoHandledEvent.class
+com/practicalddd/cargotracker/shareddomain/events/CargoBookedEventData.class
+com/practicalddd/cargotracker/shareddomain/events/CargoRoutedEvent.class
+com/practicalddd/cargotracker/shareddomain/model/TransitPath.class
+com/practicalddd/cargotracker/shareddomain/commands/AssignTrackingDetailsToCargoCommand.class

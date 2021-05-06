@@ -1,9 +1,12 @@
 package com.practicalddd.cargotracker.bookingms.interfaces.rest;
 
 
+import com.practicalddd.cargotracker.bookingms.domain.commands.BookCargoCommand;
 import com.practicalddd.cargotracker.bookingms.interfaces.rest.transform.assembler.BookCargoCommandDTOAssembler;
+import com.practicalddd.cargotracker.bookingms.interfaces.rest.transform.assembler.ChangeDestinationCommandDTOAssembler;
 import com.practicalddd.cargotracker.bookingms.interfaces.rest.transform.dto.BookCargoResource;
 import com.practicalddd.cargotracker.bookingms.application.internal.commandgateways.CargoBookingService;
+import com.practicalddd.cargotracker.bookingms.interfaces.rest.transform.dto.ChangeDestinationResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +40,14 @@ public class CargoBookingController {
         String random = UUID.randomUUID().toString().toUpperCase();
         bookCargoCommandResource.setBookingId(random.substring(0, random.indexOf("-")));
         cargoBookingService.bookCargo(BookCargoCommandDTOAssembler.toCommandFromDTO(bookCargoCommandResource));
+    }
+
+    @PostMapping("/changedest")
+    public boolean changeDestination(@RequestBody ChangeDestinationResource changeDestinationResource) {
+        cargoBookingService.changeDestinationOfCargo(ChangeDestinationCommandDTOAssembler.toCommandFromDTO(
+                changeDestinationResource
+        ));
+
+        return true;
     }
 }

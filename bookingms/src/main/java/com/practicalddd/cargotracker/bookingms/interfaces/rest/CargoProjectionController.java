@@ -24,7 +24,4 @@ public class CargoProjectionController {
         CargoSummaryResult cargoSummary = cargoProjectionService.queryCargoSummary(bookingId);
         return cargoSummary;
     }
-
-
-
 }

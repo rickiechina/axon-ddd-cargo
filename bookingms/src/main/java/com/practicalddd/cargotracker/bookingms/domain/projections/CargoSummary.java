@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Projection class for the Cargo Aggregate implemented as a regular JPA Entity. Contains a summary of the Cargo Aggregate
+ * Cargo聚合摘要投影类
  */
 @Entity
 @Table(name="cargo_summary_projection")

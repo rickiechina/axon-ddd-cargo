@@ -30,11 +30,13 @@ public class CargoProjectionService {
      * @param cargoSummary
      */
     public void storeCargoSummary(CargoSummary cargoSummary){
+        System.out.println("=== calling Store Cargo Summary ===");
         entityManager.persist(cargoSummary);
     }
 
 
     /**
+     * 通过查询网关将货物汇总查询路由到相应的查询处理程序
      * Route the CargoSummary Query to the Corresponding Query Handler via the Query Gateway
      * @param bookingId
      * @return
@@ -45,12 +47,11 @@ public class CargoProjectionService {
                                     CargoSummaryResult.class).join();
 
         return cargoSummaryResult;
-
     }
 
 
     /**
-     * Retrieve the Cargo Summary basis a Booking ID
+     * 根据预订ID检索货物摘要信息
      * @param bookingId
      * @return
      */

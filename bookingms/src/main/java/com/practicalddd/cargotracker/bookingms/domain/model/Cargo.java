@@ -1,8 +1,6 @@
 package com.practicalddd.cargotracker.bookingms.domain.model;
 
 import java.lang.invoke.MethodHandles;
-
-
 import com.practicalddd.cargotracker.bookingms.domain.commands.AssignRouteToCargoCommand;
 import com.practicalddd.cargotracker.bookingms.domain.commands.BookCargoCommand;
 import com.practicalddd.cargotracker.bookingms.domain.commands.ChangeDestinationCommand;
@@ -16,7 +14,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.axonframework.modelling.command.AggregateLifecycle.apply;;
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate
 public class Cargo {
@@ -34,13 +32,13 @@ public class Cargo {
 
 
     protected Cargo() {
-        logger.info("Empty Cargo created.");
+        logger.info("创建一个空的Cargo对象");
     }
 
     @CommandHandler
     public Cargo(BookCargoCommand bookCargoCommand) {
 
-        logger.info("Handling {}", bookCargoCommand);
+        logger.info("BookCargoCommand命令处理程序：bookingId {}", bookCargoCommand.getBookingId());
         if(bookCargoCommand.getBookingAmount() < 0){
             throw new IllegalArgumentException("Booking Amount cannot be negative");
         }
@@ -61,9 +59,8 @@ public class Cargo {
 
     @CommandHandler
     public void handleAssigntoRoute(AssignRouteToCargoCommand assignRouteToCargoCommand) {
-        logger.info("Booking Id" +assignRouteToCargoCommand.getBookingId());
-        logger.info("Assign Route to Command"+ routingStatus);
-        logger.info("Assign Route to Command"+ this.routingStatus);
+        logger.info("AssignRouteToCargoCommand命令处理程序：Booking Id=" +assignRouteToCargoCommand.getBookingId());
+        logger.info("Assign Route to Command: "+ this.routingStatus);
         if(routingStatus.equals(RoutingStatus.ROUTED)){
             throw new IllegalArgumentException("Cargo already routed");
         }
@@ -77,25 +74,30 @@ public class Cargo {
      * @param changeDestinationCommand
      */
     @CommandHandler
-    public void handleChangeDestination(ChangeDestinationCommand changeDestinationCommand){
-        if(routingStatus.equals(RoutingStatus.ROUTED)){
-            throw new IllegalArgumentException("Cannot change destination of a Routed Cargo");
+    public void handleChangeDestination(ChangeDestinationCommand changeDestinationCommand) {
+        try {
+            logger.info("ChangeDestinationCommand 命令处理程序");
+            if (routingStatus.equals(RoutingStatus.ROUTED)) {
+                throw new IllegalArgumentException("Cannot change destination of a Routed Cargo");
+            }
+
+            apply(new CargoDestinationChangedEvent(changeDestinationCommand.getBookingId(),
+                    new RouteSpecification(origin,
+                            new Location(changeDestinationCommand.getNewDestinationLocation()),
+                            routeSpecification.getArrivalDeadline())));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        apply(new CargoDestinationChangedEvent(changeDestinationCommand.getBookingId(),
-                                new RouteSpecification(origin,
-                                        new Location(changeDestinationCommand.getNewDestinationLocation()),
-                                        routeSpecification.getArrivalDeadline())));
-
     }
 
     /**
      * Event Handler for the Cargo Booked Event
      * @param cargoBookedEvent
      */
-    @EventSourcingHandler //Annotation indicating that the Aggregate is Event Sourced and is interested in the Cargo Booked Event raised by the Book Cargo Command
+    @EventSourcingHandler
+    // 表明聚合是事件溯源的，并且对BookCargoCommand命令引发的CargoBookedEvent事件感兴趣
     public void on(CargoBookedEvent cargoBookedEvent) {
-        logger.info("Applying {}", cargoBookedEvent);
+        logger.info("事件溯源处理程序：Applying {}", cargoBookedEvent);
         // State being maintained
         bookingId = cargoBookedEvent.getBookingId();
         bookingAmount = cargoBookedEvent.getBookingAmount();
@@ -103,16 +105,19 @@ public class Cargo {
         routeSpecification = cargoBookedEvent.getRouteSpecification();
         routingStatus = RoutingStatus.NOT_ROUTED;
         transportStatus = TransportStatus.NOT_RECEIVED;
-        logger.info("Routing Status is"+routingStatus);
+        logger.info("Routing Status is "+routingStatus);
     }
 
     /**
      * Event Handler for the Cargo Routed Event
+     * 表明聚合是事件溯源的，并且对BookCargoCommand引发的CargoRoutedEvent事件感兴趣
      * @param cargoRoutedEvent
      */
-    @EventSourcingHandler //Annotation indicating that the Aggregate is Event Sourced and is interested in the Cargo Routed Event raised by the Book Cargo Command
+    @EventSourcingHandler
     public void on(CargoRoutedEvent cargoRoutedEvent) {
-        logger.info("Applying {}", cargoRoutedEvent);
+        logger.info("事件溯源处理程序： {}", cargoRoutedEvent);
+        logger.info("bookingId= " + cargoRoutedEvent.getBookingId());
+        bookingId = cargoRoutedEvent.getBookingId();
         itinerary = cargoRoutedEvent.getItinerary();
         routingStatus = RoutingStatus.ROUTED;
     }
@@ -126,7 +131,6 @@ public class Cargo {
         logger.info("Applying {}", cargoDestinationChangedEvent);
         routingStatus = RoutingStatus.NOT_ROUTED;
         routeSpecification = cargoDestinationChangedEvent.getNewRouteSpecification();
-
     }
 
 }

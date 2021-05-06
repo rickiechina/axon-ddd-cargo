@@ -2,7 +2,7 @@ package com.practicalddd.cargotracker.trackingms.interfaces.events;
 
 
 import com.practicalddd.cargotracker.trackingms.application.internal.commandgateways.TrackingProjectionService;
-import com.practicalddd.cargotracker.trackingms.domain.events.CargoTrackedEvent;
+import com.practicalddd.cargotracker.shareddomain.events.CargoTrackedEvent;
 import com.practicalddd.cargotracker.trackingms.domain.projections.BookingId;
 import com.practicalddd.cargotracker.trackingms.domain.projections.TrackingNumber;
 import com.practicalddd.cargotracker.trackingms.domain.projections.TrackingProjection;
@@ -32,7 +32,7 @@ public class TrackingProjectionsEventHandler {
      */
     @EventHandler
     public void cargoTrackedEventHandler(CargoTrackedEvent cargoTrackedEvent) {
-        logger.info("Applying {}", cargoTrackedEvent.getBookingId());
+        logger.info("CargoTrackedEvent事件处理程序：BookingId： {}", cargoTrackedEvent.getBookingId());
 
         TrackingProjection trackingProjection = new TrackingProjection(
             new BookingId(cargoTrackedEvent.getBookingId()),
@@ -40,6 +40,4 @@ public class TrackingProjectionsEventHandler {
         );
         trackingProjectionService.assignTrackingNumberToCargo(trackingProjection);
     }
-
-
 }

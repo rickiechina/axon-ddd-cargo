@@ -1,7 +1,5 @@
 package com.practicalddd.cargotracker.trackingms.domain.projections;
 
-
-
 import javax.persistence.*;
 
 @Entity

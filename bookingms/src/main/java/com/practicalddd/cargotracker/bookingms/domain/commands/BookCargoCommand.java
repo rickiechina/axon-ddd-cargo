@@ -6,9 +6,9 @@ import java.util.Date;
 /**
  * Implementation Class for the Booking Cargo Command
  */
-
 public class BookCargoCommand {
-    @TargetAggregateIdentifier //Identifier to indicate to Axon framework the unique instance on which the Command needs to be processed
+    //标识符，指示Axon框架需要在其上处理命令的唯一实例
+    @TargetAggregateIdentifier
     private String bookingId;
     private int bookingAmount;
     private String originLocation;
